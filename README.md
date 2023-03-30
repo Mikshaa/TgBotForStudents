@@ -1,10 +1,1 @@
-osel
-
-
-
-
-
-
-
-
 efim ky

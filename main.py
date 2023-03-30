@@ -27,7 +27,7 @@ def start_message(message):
 @bot.message_handler(commands=['setphdz'])
 def start_message(message):
     global dz
-    if message.from_user.id == myID or myID1:
+    if message.from_user.id == myID or message.from_user.id == myID1:
         bot.send_message(message.chat.id, 'Отправьте фотографию')
         dz = True
     else:
@@ -47,11 +47,12 @@ def start_message(message):
 @bot.message_handler(content_types=['photo'])
 def photo(message):
     global dz
-    if dz:
+    if dz and message.from_user.id == myID1 and message.from_user.id == myID:
          fileID = message.photo[-1].file_id
          file_info = bot.get_file(fileID)
          downloaded_file = bot.download_file(file_info.file_path)
          with open("image.jpg", 'wb') as new_file:
              new_file.write(downloaded_file)
+    dz = False
 
 bot.infinity_polling()
