@@ -53,8 +53,5 @@ def photo(message):
          downloaded_file = bot.download_file(file_info.file_path)
          with open("image.jpg", 'wb') as new_file:
              new_file.write(downloaded_file)
-    dz = False
-#aoaoa
 
-#mvkrmeovnmofek
 bot.infinity_polling()

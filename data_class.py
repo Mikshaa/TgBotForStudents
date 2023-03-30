@@ -4,7 +4,7 @@ import openpyxl
 class StudentsData:
 
     def __init__(self):
-        self.wb = openpyxl.load_workbook('')
+        self.wb = openpyxl.load_workbook('stud_data.xlsx')
         self.studList = self.wb.sheetnames
         self.idList = []
         for sheet in self.wb:
