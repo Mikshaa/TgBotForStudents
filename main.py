@@ -8,9 +8,7 @@ myID1 = 582338838
 myID = 1737599584
 stud_id_list = []
 dz = False
-def ch():
-    global dz
-    dz = False
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
