@@ -57,5 +57,5 @@ def photo(message):
              new_file.write(downloaded_file)
 #aoaoa
 
-
+#mvkrmeovnmofek
 bot.infinity_polling()
