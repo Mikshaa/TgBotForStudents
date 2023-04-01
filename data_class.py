@@ -57,63 +57,63 @@ class StudentsData:
     def setParName(self, id, name):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['A2'] = name
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setParNum(self, id, num):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['B2'] = num
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setStudNum(self, id, num):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['C2'] = num
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setNextLsn(self, id, date):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['D2'] = date
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setLastTheme(self, id, theme):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['E2'] = theme
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setDz(self, id, dz):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['F2'] = dz
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setPaid(self, id, paid):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['G2'] = paid
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setLessons(self, id, lessons):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['H2'] = lessons
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')
 
     def setStudName(self, id, name):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)].title = name
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
             for pair in self.idList:
                 if id == pair[1]:
                     pair[0] = name
@@ -133,11 +133,11 @@ class StudentsData:
         newSheet['G2'] = paid
         newSheet['H2'] = lessons
         newSheet['I2'] = id
-        self.wb.save('data/data.xlsx')
+        self.wb.save('data.xlsx')
 
     def delStud(self, id):
         if self.getSheet(id) != None:
             del self.wb[self.getSheet(id)]
-            self.wb.save('data/data.xlsx')
+            self.wb.save('data.xlsx')
         else:
             print('NotFound')

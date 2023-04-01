@@ -1,6 +1,7 @@
 import telebot
 from telebot import types
 #import data_class as dat
+import data_class
 
 token = "5760239776:AAFSum_k7pm7GbC_no4aIZRIGTQiXVLswGc"
 bot=telebot.TeleBot(token)
@@ -8,7 +9,7 @@ myID1 = 582338838
 myID = 1737599584
 stud_id_list = []
 dz = False
-
+data = data_class.StudentsData()
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
@@ -44,6 +45,11 @@ def start_message(message):
     else:
         bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
 
+@bot.message_handler(commands=['setdzz'])
+def start_message(message):
+    print(data.getStudId("Максим"))
+
+
 @bot.message_handler(content_types=['photo'])
 def photo(message):
     global dz
@@ -54,5 +60,8 @@ def photo(message):
          with open("image.jpg", 'wb') as new_file:
              new_file.write(downloaded_file)
     dz = False
+
+
+
 
 bot.infinity_polling()
