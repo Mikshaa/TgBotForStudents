@@ -49,7 +49,7 @@ class StudentsData:
         return self.studlist
 
     def getStudId(self, name):
-        for i in self.studlist:
+        for i in self.studList:
             if name == i[0]:
                 return i[1]
 
