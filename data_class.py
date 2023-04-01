@@ -6,6 +6,7 @@ class StudentsData:
     def __init__(self):
         self.wb = openpyxl.load_workbook('stud_data.xlsx')
         self.studList = self.wb.sheetnames
+        print(self)
         self.idList = []
         for sheet in self.wb:
             self.idList.append([sheet.title, sheet['I2'].value])
@@ -49,7 +50,7 @@ class StudentsData:
         return self.studlist
 
     def getStudId(self, name):
-        for i in self.studList:
+        for i in self.idList:
             if name == i[0]:
                 return i[1]
 
@@ -141,3 +142,6 @@ class StudentsData:
             self.wb.save('data.xlsx')
         else:
             print('NotFound')
+
+data = StudentsData()
+print(data.getStudId("Максим"))
