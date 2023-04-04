@@ -4,7 +4,7 @@ import openpyxl
 class StudentsData:
 
     def __init__(self):
-        self.wb = openpyxl.load_workbook('stud_data.xlsx')
+        self.wb = openpyxl.load_workbook('data.xlsx')
         self.studList = self.wb.sheetnames
         self.idList = []
         for sheet in self.wb:
@@ -49,7 +49,7 @@ class StudentsData:
         return self.studlist
 
     def getStudId(self, name):
-        for i in self.studList:
+        for i in self.idList:
             if name == i[0]:
                 return i[1]
 
@@ -120,7 +120,7 @@ class StudentsData:
         else:
             print('NotFound')
 
-    def newStudent(self, id, studName, parName, parNum, studNum, nextLsn, lastTheme, dz, paid, lessons):
+    def newStudent(self, id, studName, parName=None, parNum=None, studNum=None, nextLsn=None, lastTheme=None, dz=None, paid=None, lessons=None):
         newSheet = self.wb.copy_worksheet(self.wb['Образец'])
         newSheet.title = studName
         self.idList.append([studName, id])
@@ -141,3 +141,6 @@ class StudentsData:
             self.wb.save('data.xlsx')
         else:
             print('NotFound')
+
+data = StudentsData()
+
