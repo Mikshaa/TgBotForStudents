@@ -191,7 +191,6 @@ def start_message(message):
         idd = message.text[11:]
         nm = idd[0:idd.find(" ")]
         idd = idd[idd.find(" ") + 1:]
-        print(idd, nm)
         data.setParNum(data.getStudId(nm), idd)
         bot.send_message(message.chat.id, "Телефон родителя изменен")
     else:
