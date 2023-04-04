@@ -91,4 +91,155 @@ def photo(message):
 
 
 
+@bot.message_handler(commands=['getparname'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[12:]
+        bot.send_message(message.chat.id, data.getParName(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['getparnum'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[11:]
+
+        bot.send_message(message.chat.id, data.getParNum(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['getstudnum'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[12:]
+
+        bot.send_message(message.chat.id, data.getStudNum(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['getnextlsn'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[12:]
+        bot.send_message(message.chat.id, data.getNextLsn(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+
+@bot.message_handler(commands=['getlastheme'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[13:]
+        bot.send_message(message.chat.id, data.getLastTheme(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+
+@bot.message_handler(commands=['getpaid'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[9:]
+        bot.send_message(message.chat.id, data.getPaid(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['getlessons'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[12:]
+        bot.send_message(message.chat.id, data.getLessons(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+@bot.message_handler(commands=['getstudname'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[13:]
+        bot.send_message(message.chat.id, data.getStudName(int(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+@bot.message_handler(commands=['getstudid'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[11:]
+        bot.send_message(message.chat.id, data.getStudId(nm))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setparname'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[12:]
+        idd = nm[0:nm.find(" ")]
+        nm = nm[nm.find(" ") + 1:]
+        data.setParName(data.getStudId(idd), nm)
+        bot.send_message(message.chat.id, "Имя родителя изменено")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+@bot.message_handler(commands=['setparnum'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[11:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        print(idd, nm)
+        data.setParNum(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Телефон родителя изменен")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+#@bot.message_handler(commands=['setparnum'])
+#def start_message(message):
+#    if message.from_user.id == myID or message.from_user.id == myID1:
+#        idd = message.text[11:]
+#        nm = idd[0:idd.find(" ")]
+#           idd = idd[idd.find(" ") + 1:]
+#        print(idd, nm)
+#        data.setParNum(data.getStudId(nm), idd)
+#        bot.send_message(message.chat.id, "Телефон родителя изменен")
+#    else:
+#        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 bot.infinity_polling()
