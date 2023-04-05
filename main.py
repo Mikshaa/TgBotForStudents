@@ -197,24 +197,105 @@ def start_message(message):
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
-#@bot.message_handler(commands=['setparnum'])
-#def start_message(message):
-#    if message.from_user.id == myID or message.from_user.id == myID1:
-#        idd = message.text[11:]
-#        nm = idd[0:idd.find(" ")]
-#           idd = idd[idd.find(" ") + 1:]
-#        print(idd, nm)
-#        data.setParNum(data.getStudId(nm), idd)
-#        bot.send_message(message.chat.id, "Телефон родителя изменен")
-#    else:
-#        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setstudnum'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[12:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.setStudNum(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Телефон ученика изменен")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setnextlsn'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[12:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.setNextLsn(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Дата следуюшего урока изменена")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
 
 
+@bot.message_handler(commands=['setlasttheme'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[14:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.setLastTheme(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Последняя тема изменена")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setpaid'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[9:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        print(idd,nm)
+        data.setPaid(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Кол-во оплаченых занятий изменено")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setlessons'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[12:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.setLessons(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Кол-во прошедших занятий изменено")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['setstudname'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[13:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.setStudName(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Имя ученика изменено")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+
+@bot.message_handler(commands=['newstudent'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        idd = message.text[12:]
+        nm = idd[0:idd.find(" ")]
+        idd = idd[idd.find(" ") + 1:]
+        data.newStudent(data.getStudId(nm), idd)
+        bot.send_message(message.chat.id, "Ученика добавлен")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
 
+
+@bot.message_handler(commands=['delstud'])
+def start_message(message):
+    if message.from_user.id == myID or message.from_user.id == myID1:
+        nm = message.text[9:]
+        data.delStud(data.getStudId(nm))
+        bot.send_message(message.chat.id, "Ученик удален")
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
 
