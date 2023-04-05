@@ -53,7 +53,6 @@ class StudentsData:
             if name == i[0]:
                 return i[1]
 
-
     def setParName(self, id, name):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['A2'] = name
@@ -139,6 +138,7 @@ class StudentsData:
         if self.getSheet(id) != None:
             del self.wb[self.getSheet(id)]
             self.wb.save('data.xlsx')
+            self.studList = self.wb.sheetnames
         else:
             print('NotFound')
 
