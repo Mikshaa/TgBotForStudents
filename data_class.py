@@ -53,6 +53,7 @@ class StudentsData:
             if name == i[0]:
                 return i[1]
 
+
     def setParName(self, id, name):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['A2'] = name
@@ -95,6 +96,7 @@ class StudentsData:
         else:
             print('NotFound')
 
+
     def setPaid(self, id, paid):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)]['G2'] = paid
@@ -134,13 +136,12 @@ class StudentsData:
         newSheet['I2'] = id
         self.wb.save('data.xlsx')
 
-    def delStud(self, id):
-        if self.getSheet(id) != None:
-            del self.wb[self.getSheet(id)]
-            self.wb.save('data.xlsx')
-            self.studList = self.wb.sheetnames
-        else:
-            print('NotFound')
+    def delStud(self,name):
+        for i in self.wb.sheetnames:
+            if name == i:
+                self.wb.remove(self.wb[name])
+
+        self.wb.save('data.xlsx')
 
 data = StudentsData()
 
