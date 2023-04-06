@@ -43,10 +43,7 @@ class StudentsData:
         return self.getSheet(id)
 
     def getAllStudens(self):
-        self.studlist = []
-        for i in self.studList:
-            self.studlist.append([i,self.wb[i]['I2'].value])
-        return self.studlist
+        return self.studList
 
     def getStudId(self, name):
         for i in self.idList:
@@ -114,6 +111,7 @@ class StudentsData:
     def setStudName(self, id, name):
         if self.getSheet(id) != None:
             self.wb[self.getSheet(id)].title = name
+            self.studList = name
             self.wb.save('data.xlsx')
             for pair in self.idList:
                 if id == pair[1]:
@@ -124,6 +122,7 @@ class StudentsData:
     def newStudent(self, id, studName, parName=None, parNum=None, studNum=None, nextLsn=None, lastTheme=None, dz=None, paid=None, lessons=None):
         newSheet = self.wb.copy_worksheet(self.wb['Образец'])
         newSheet.title = studName
+        self.studList.append(studName)
         self.idList.append([studName, id])
         newSheet['A2'] = parName
         newSheet['B2'] = parNum
@@ -140,7 +139,7 @@ class StudentsData:
         for i in self.wb.sheetnames:
             if name == i:
                 self.wb.remove(self.wb[name])
-
+                self.studList.remove(name)
         self.wb.save('data.xlsx')
 
 data = StudentsData()
