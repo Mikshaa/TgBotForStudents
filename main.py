@@ -278,10 +278,11 @@ def start_message(message):
 @bot.message_handler(commands=['newstudent'])
 def start_message(message):
     if message.from_user.id == myID or message.from_user.id == myID1:
-        idd = message.text[12:]
-        nm = idd[0:idd.find(" ")]
-        idd = idd[idd.find(" ") + 1:]
-        data.newStudent(data.getStudId(nm), idd)
+        fspace = message.text.find(" ")
+        lspace = message.text.rfind(" ")
+        name = message.text[fspace:lspace]
+        cur_id = message.text[lspace:]
+        data.newStudent(cur_id, name)
         bot.send_message(message.chat.id, "Ученик добавлен")
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
