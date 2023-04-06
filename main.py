@@ -20,10 +20,9 @@ def start_message(message):
 def allstud():
     global a
     for i in data.getAllStudens():
-        stud.append(i[0])
+        stud.append(i)
     a = ", ".join(stud)
     return a
-    a = ""
 
 
 @bot.message_handler(commands=['getdz'])

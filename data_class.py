@@ -6,6 +6,7 @@ class StudentsData:
     def __init__(self):
         self.wb = openpyxl.load_workbook('data.xlsx')
         self.studList = self.wb.sheetnames
+        print(self.studList)
         self.idList = []
         for sheet in self.wb:
             self.idList.append([sheet.title, sheet['I2'].value])
