@@ -68,7 +68,6 @@ def start_message(message):
     cur_id = message.from_user.id
     if cur_id not in stud_id_list:
         bot.send_message(message.chat.id, 'Ваша заявка отправленна на рассмотрение, ожидайте!')
-        data.newStudent(cur_id, name)
         bot.send_message(myID, f"Пришла новая заявка на регистрацию от {name} с айди {cur_id}")
     else:
         bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
