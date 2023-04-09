@@ -4,21 +4,41 @@ from telebot import types
 #import data_class as dat
 import data_class
 dztt = False
+myID = 1737599584
+myID = 582338838
+
 token = "5760239776:AAFSum_k7pm7GbC_no4aIZRIGTQiXVLswGc"
 bot=telebot.TeleBot(token)
-myID1 = 582338838
-myID = 1737599584
 stud_id_list = []
+par_id_list = []
+teach_id = [1737599584, 582338838]
 dz = False
 data = data_class.StudentsData()
 stud = []
 a = ""
 name123 = 123
+
+def check_perm(id):
+    if id in stud_id_list:
+        return 1
+    elif id in par_id_list:
+        return 2
+    elif id in teach_id:
+        return 3
+    else:
+        return 0
+
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
+    if check_perm(message.chat.id) == 0:
+        bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
+    elif check_perm(message.chat.id) == 1:
+        bot.send_message(message.chat.id, '')
+
 def allstud():
     global a
+    stud = []
     for i in data.getAllStudens():
         stud.append(i)
     a = ", ".join(stud)
@@ -278,7 +298,7 @@ def start_message(message):
     if message.from_user.id == myID or message.from_user.id == myID1:
         fspace = message.text.find(" ")
         lspace = message.text.rfind(" ")
-        name = message.text[fspace:lspace]
+        name = message.text[fspace+1:lspace]
         cur_id = message.text[lspace:]
         data.newStudent(cur_id, name)
         bot.send_message(message.chat.id, "Ученик добавлен")
@@ -292,6 +312,7 @@ def start_message(message):
 def start_message(message):
     if message.from_user.id == myID or message.from_user.id == myID1:
         nm = message.text[9:]
+        print(nm)
         try:
             data.delStud(nm)
             bot.send_message(message.chat.id, "Ученик удален")

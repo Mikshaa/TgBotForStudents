@@ -138,7 +138,10 @@ class StudentsData:
 
     def delStud(self,name):
         for i in self.wb.sheetnames:
+            print(i)
+            print(type(i),type(name))
             if name == i:
+                print(name)
                 self.wb.remove(self.wb[name])
                 self.studList.remove(name)
         self.wb.save('data.xlsx')
