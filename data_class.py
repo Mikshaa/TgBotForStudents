@@ -146,5 +146,26 @@ class StudentsData:
                 self.studList.remove(name)
         self.wb.save('data.xlsx')
 
-data = StudentsData()
+    def getStartCount(self, id):
+        if self.getSheet(id) != None:
+            return self.wb[self.getSheet(id)]['J2'].value
+            self.wb.save('data.xlsx')
+        else:
+            print('NotFound')
 
+    def setStartCount(self, id):
+        if self.getSheet(id) != None:
+            if self.wb[self.getSheet(id)]['J2'].value < 10:
+                self.wb[self.getSheet(id)]['J2'].value = int(self.wb[self.getSheet(id)]['J2'].value)+1
+                self.wb.save('data.xlsx')
+            else:
+                self.wb[self.getSheet(id)]['J2'].value = 1
+        else:
+            print('NotFound')
+
+
+data = StudentsData()
+print(data.getStartCount(1737599584))
+for i in range(15):
+    data.setStartCount(1737599584)
+    print(data.getStartCount(1737599584))
