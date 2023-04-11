@@ -2,11 +2,10 @@ import openpyxl
 
 
 class StudentsData:
-
+#h
     def __init__(self):
         self.wb = openpyxl.load_workbook('data.xlsx')
         self.studList = self.wb.sheetnames
-        print(self.studList)
         self.idList = []
         for sheet in self.wb:
             self.idList.append([sheet.title, sheet['I2'].value])
@@ -164,8 +163,3 @@ class StudentsData:
             print('NotFound')
 
 
-data = StudentsData()
-print(data.getStartCount(1737599584))
-for i in range(15):
-    data.setStartCount(1737599584)
-    print(data.getStartCount(1737599584))
