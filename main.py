@@ -1,7 +1,6 @@
 import telebot
 import os
 from telebot import types
-#import data_class as dat
 import data_class
 dztt = False
 myID = 1737599584
@@ -16,7 +15,7 @@ dz = False
 data = data_class.StudentsData()
 stud = []
 a = ""
-name123 = 123
+curStud = None
 phrases = ['Если ты это видишь, значит в коде ошибка', 'Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя", ]
 def check_perm(id):
     if id in stud_id_list:
@@ -42,13 +41,7 @@ def start_message(message):
     elif check_perm(message.chat.id) == 2:
         bot.send_message(message.chat.id,'')
 
-def allstud():
-    global a
-    stud = []
-    for i in data.getAllStudens():
-        stud.append(i)
-    a = ", ".join(stud)
-    return a
+
 
 
 @bot.message_handler(commands=['getdz'])
@@ -56,7 +49,7 @@ def start_message(message):
     if check_perm(message.chat.id) == 3:
         name = message.text[7:]
         if data.getDz(message.chat.id) == "Фото":
-            bot.send_photo(message.chat.id, photo=open(f"{data.getStudId(name)}.jpg", "rb"))
+            bot.send_photo(message.chat.id, photo=open(f"data/{data.getStudId(name)}.jpg", "rb"))
         else:
             bot.send_message(message.chat.id, data.getDz(message.chat.id))
     elif check_perm(message.chat.id) == 2:
@@ -75,19 +68,21 @@ def start_message(message):
 @bot.message_handler(commands=['all'])
 def start_message(message):
     if check_perm(message.from_user.id) == 3:
-        bot.send_message(message.chat.id, allstud())
+        stud = []
+        for i in data.getAllStudens():
+            stud.append(i)
+        a = ", ".join(stud)
+        bot.send_message(message.chat.id, a)
 
 
 @bot.message_handler(commands=['setphdz'])
 def start_message(message):
     global dz
+    global curStud
     if check_perm(message.from_user.id) == 3:
-        global name123
-        name123 = message.text[9:]
+        curStud = message.text[9:]
         bot.send_message(message.chat.id, 'Отправьте фотографию')
         dz = True
-    else:
-        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
 @bot.message_handler(commands=['reg'])
@@ -99,24 +94,6 @@ def start_message(message):
         bot.send_message(myID, f"Пришла новая заявка на регистрацию от {name} с айди {cur_id}")
     else:
         bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
-
-
-
-
-@bot.message_handler(content_types=['photo'])
-def photo(message):
-    global dz
-    if dz and check_perm(message.from_user.id) == 3:
-        fileID = message.photo[-1].file_id
-        file_info = bot.get_file(fileID)
-        downloaded_file = bot.download_file(file_info.file_path)
-        with open(rf"{data.getStudId(name123)}.jpg", 'wb') as new_file:
-            new_file.write(downloaded_file)
-            data.setDz(data.getStudId(name123),"Фото")
-        bot.send_message(message.chat.id, "Дз задано!")
-    dz = False
-
-
 
 
 @bot.message_handler(commands=['getparname'])
@@ -341,13 +318,18 @@ def start_message(message):
             bot.send_message(message.chat.id, "Нет такого")
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
-
-
-
-
-
-
-
+@bot.message_handler(content_types=['photo'])
+def photo(message):
+    global dz
+    if dz and check_perm(message.from_user.id) == 3:
+        fileID = message.photo[-1].file_id
+        file_info = bot.get_file(fileID)
+        downloaded_file = bot.download_file(file_info.file_path)
+        with open(rf"data/{data.getStudId(curStud)}.jpg", 'wb') as new_file:
+            new_file.write(downloaded_file)
+            data.setDz(data.getStudId(curStud),"Фото")
+        bot.send_message(message.chat.id, "Дз задано!")
+    dz = False
 
 
 
