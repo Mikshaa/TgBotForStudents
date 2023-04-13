@@ -16,7 +16,7 @@ data = data_class.StudentsData()
 stud = []
 a = ""
 curStud = None
-phrases = ['Если ты это видишь, значит в коде ошибка', 'Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя", ]
+phrases = ['Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя","Вы сломали бота поздравляю","А нет мне показалось)))","ТЫ СЕРЬЁЗНО ВСЁ ЕЩЁ ТЫКАЕШЬ СТАРТ","Ну прекрати","Если ты ещё раз тыкнешь старт,то к дз прибавится 1 задание","А ты любишь риск","Ладно ты победил(ла) , можешь не делать дз","Ну это ряльно конец.","P.S сделали Миша,Ефим,Макс","Макс не очень работал над фразами."]
 def check_perm(id):
     if id in stud_id_list:
         return 1
@@ -37,7 +37,9 @@ def start_message(message):
     if check_perm(message.chat.id) == 0:
         bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
     elif check_perm(message.chat.id) == 1:
-        bot.send_message(message.chat.id, '')
+        x=data.getStartCount(message.chat.id)
+        bot.send_message(message.chat.id,phrases[x])
+        data.setStartCount(message.chat.id)
     elif check_perm(message.chat.id) == 2:
         bot.send_message(message.chat.id,'')
 
