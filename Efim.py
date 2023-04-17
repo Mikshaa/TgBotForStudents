@@ -22,12 +22,14 @@ def message_reply(message):
         else:
             bot.send_message(message.chat.id,text="Ты не зарегался или ты не мой ученик😭.")
 '''
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['menu'])
 def start(message):
     markup = telebot.types.InlineKeyboardMarkup()
-    button = telebot.types.InlineKeyboardButton(text='CLick me', callback_data='add')
+    button = telebot.types.InlineKeyboardButton(text='Домашку скинул быстро!!!!!', callback_data='add')
+    button2 = telebot.types.InlineKeyboardButton(text='КОГДА УРОК А МОЖЕТ Я ОПОЗДАЛ???', callback_data='add')
     markup.add(button)
-    bot.send_message(chat_id=message.chat.id, text='Some text', reply_markup=markup)
+    markup.add(button2)
+    bot.send_message(chat_id=message.chat.id, text='Самые полезные функции(А может и нет)', reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):

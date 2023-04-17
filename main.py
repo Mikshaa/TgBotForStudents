@@ -17,6 +17,7 @@ stud = []
 a = ""
 curStud = None
 phrases = ['Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя","Вы сломали бота поздравляю","А нет мне показалось)))","ТЫ СЕРЬЁЗНО ВСЁ ЕЩЁ ТЫКАЕШЬ СТАРТ","Ну прекрати","Если ты ещё раз тыкнешь старт,то к дз прибавится 1 задание","А ты любишь риск","Ладно ты победил(ла) , можешь не делать дз","Ну это ряльно конец.","P.S сделали Миша,Ефим,Макс","Макс не очень работал над фразами."]
+'''##########################Functions and otfer good thinks##############################'''
 def check_perm(id):
     if id in stud_id_list:
         return 1
@@ -31,7 +32,7 @@ def replace_id(cur_id):
     for item in combine:
         if item[0] == cur_id:
             return item[1]
-
+'''###############################Functions for the lomateley program##############################'''
 @bot.message_handler(commands=['start'])
 def start_message(message):
     if check_perm(message.chat.id) == 0:
@@ -43,19 +44,18 @@ def start_message(message):
     elif check_perm(message.chat.id) == 2:
         bot.send_message(message.chat.id,'')
 
-
-
-
-@bot.message_handler(commands=['getdz'])
+@bot.message_handler(commands=['reg'])
 def start_message(message):
-    if check_perm(message.chat.id) == 3:
-        name = message.text[7:]
-        if data.getDz(message.chat.id) == "Фото":
-            bot.send_photo(message.chat.id, photo=open(f"data/{data.getStudId(name)}.jpg", "rb"))
-        else:
-            bot.send_message(message.chat.id, data.getDz(message.chat.id))
-    elif check_perm(message.chat.id) == 2:
-        print(1)
+    name = message.text[5:]
+    cur_id = message.from_user.id
+    if cur_id not in stud_id_list:
+        bot.send_message(message.chat.id, 'Ваша заявка отправленна на рассмотрение, ожидайте!')
+        bot.send_message(myID, f"Пришла новая заявка на регистрацию от {name} с айди {cur_id}")
+    else:
+        bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
+
+
+'''##############################MIKSHA FUN FUNCTIONS(ALL CAN'T BE USE)####################################'''
 
 @bot.message_handler(commands=['setdz'])
 def start_message(message):
@@ -86,18 +86,6 @@ def start_message(message):
         bot.send_message(message.chat.id, 'Отправьте фотографию')
         dz = True
 
-
-@bot.message_handler(commands=['reg'])
-def start_message(message):
-    name = message.text[5:]
-    cur_id = message.from_user.id
-    if cur_id not in stud_id_list:
-        bot.send_message(message.chat.id, 'Ваша заявка отправленна на рассмотрение, ожидайте!')
-        bot.send_message(myID, f"Пришла новая заявка на регистрацию от {name} с айди {cur_id}")
-    else:
-        bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
-
-
 @bot.message_handler(commands=['getparname'])
 def start_message(message):
     if check_perm(message.from_user.id) == 3:
@@ -126,35 +114,6 @@ def start_message(message):
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
-
-@bot.message_handler(commands=['getnextlsn'])
-def start_message(message):
-    if check_perm(message.from_user.id) == 3:
-        nm = message.text[12:]
-        bot.send_message(message.chat.id, data.getNextLsn(data.getStudId(nm)))
-    elif check_perm(message.from_user.id) == 1:
-        bot.send_message(message.chat.id, data.getNextLsn(message.from_user.id))
-    elif check_perm(message.chat.id) == 2:
-        bot.send_message(message.chat.id, data.getNextLsn(replace_id(message.chat.id)))
-    else:
-        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
-
-
-
-@bot.message_handler(commands=['getlastheme'])
-def start_message(message):
-    if check_perm(message.from_user.id) == 3:
-        nm = message.text[13:]
-        bot.send_message(message.chat.id, data.getLastTheme(data.getStudId(nm)))
-    elif check_perm(message.from_user.id) == 1:
-        bot.send_message(message.chat.id, data.getLastTheme(message.from_user.id))
-    elif check_perm(message.from_user.id) == 2:
-        bot.send_message(message.chat.id, data.getLastTheme(replace_id(message.chat.id)))
-    else:
-        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
-
-
-
 @bot.message_handler(commands=['getpaid'])
 def start_message(message):
     if check_perm(message.from_user.id) == 3:
@@ -165,16 +124,6 @@ def start_message(message):
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
-
-@bot.message_handler(commands=['getlessons'])
-def start_message(message):
-    if check_perm(message.from_user.id) == 3:
-        nm = message.text[12:]
-        bot.send_message(message.chat.id, data.getLessons(data.getStudId(nm)))
-    elif check_perm(message.from_user.id) == 2:
-        bot.send_message(message.chat.id, data.getLessons(replace_id(message.chat.id)))
-    else:
-        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 @bot.message_handler(commands=['getstudname'])
 def start_message(message):
@@ -333,16 +282,56 @@ def photo(message):
         bot.send_message(message.chat.id, "Дз задано!")
     dz = False
 
+'''###############################Ask3ll, LXSTON and other silvers functions####################################'''
 
 
 
+@bot.message_handler(commands=['getdz'])
+def start_message(message):
+    if check_perm(message.chat.id) == 3:
+        name = message.text[7:]
+        if data.getDz(message.chat.id) == "Фото":
+            bot.send_photo(message.chat.id, photo=open(f"data/{data.getStudId(name)}.jpg", "rb"))
+        else:
+            bot.send_message(message.chat.id, data.getDz(message.chat.id))
+    elif check_perm(message.chat.id) == 2:
+        print(1)
 
 
+@bot.message_handler(commands=['getnextlsn'])
+def start_message(message):
+    if check_perm(message.from_user.id) == 3:
+        nm = message.text[12:]
+        bot.send_message(message.chat.id, data.getNextLsn(data.getStudId(nm)))
+    elif check_perm(message.from_user.id) == 1:
+        bot.send_message(message.chat.id, data.getNextLsn(message.from_user.id))
+    elif check_perm(message.chat.id) == 2:
+        bot.send_message(message.chat.id, data.getNextLsn(replace_id(message.chat.id)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
+@bot.message_handler(commands=['getlastheme'])
+def start_message(message):
+    if check_perm(message.from_user.id) == 3:
+        nm = message.text[13:]
+        bot.send_message(message.chat.id, data.getLastTheme(data.getStudId(nm)))
+    elif check_perm(message.from_user.id) == 1:
+        bot.send_message(message.chat.id, data.getLastTheme(message.from_user.id))
+    elif check_perm(message.from_user.id) == 2:
+        bot.send_message(message.chat.id, data.getLastTheme(replace_id(message.chat.id)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
-
-
+@bot.message_handler(commands=['getlessons'])
+def start_message(message):
+    if check_perm(message.from_user.id) == 3:
+        nm = message.text[12:]
+        bot.send_message(message.chat.id, data.getLessons(data.getStudId(nm)))
+    elif check_perm(message.from_user.id) == 2:
+        bot.send_message(message.chat.id, data.getLessons(replace_id(message.chat.id)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
 
 
