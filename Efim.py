@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 myid =582338838
 stud_list=[]
-bot=telebot.TeleBot("5760239776:AAFSum_k7pm7GbC_no4aIZRIGTQiXVLswGc")
+bot=telebot.TeleBot("6134963735:AAHmMiLAxkabV2p38DJky9kEOVxIDb5C2tY")
 '''
 @bot.message_handler(content_types=["text"])
 def message_reply(message):
@@ -10,7 +10,7 @@ def message_reply(message):
         if message.chat.id in stud_id_list:
             if message.text=="Узнать homeWork":
                 dz=data.getDz(message.chat.id)
-                if dz == "фото":
+                if dz == "Фото":
                     photo=open(f"{message.chat.id}.jpg","rb")
                     bot.send_photo(message.chat.id,photo)
 
@@ -29,7 +29,7 @@ def start(message):
     button2 = telebot.types.InlineKeyboardButton(text='КОГДА УРОК А МОЖЕТ Я ОПОЗДАЛ???', callback_data='add')
     markup.add(button)
     markup.add(button2)
-    bot.send_message(chat_id=message.chat.id, text='Самые полезные функции(А может и нет)', reply_markup=markup)
+    bot.send_photo(chat_id=message.chat.id, photo=open("osel.png", "rb"),caption='Самые полезные функции(А может и нет)', reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):

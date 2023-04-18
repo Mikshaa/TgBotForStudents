@@ -137,13 +137,12 @@ class StudentsData:
 
     def delStud(self,name):
         for i in self.wb.sheetnames:
-            print(i)
-            print(type(i),type(name))
             if name == i:
-                print(name)
                 self.wb.remove(self.wb[name])
                 self.studList.remove(name)
-        self.wb.save('data/data.xlsx')
+                self.wb.save('data/data.xlsx')
+                return True
+        return False
 
     def getStartCount(self, id):
         if self.getSheet(id) != None:
