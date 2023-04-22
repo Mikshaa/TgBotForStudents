@@ -6,18 +6,21 @@ dztt = False
 myID = 1737599584
 myID1 = 582338838
 combine = []
-token = "6134963735:AAHmMiLAxkabV2p38DJky9kEOVxIDb5C2tY"
+token = "6004511133:AAFMwfkebSxQa_Op5jQNsMbYIpBaMyrgD98"
 bot=telebot.TeleBot(token)
-stud_id_list = [1556909446]
-par_id_list = []
-teach_id = [582338838, 1737599584]
+stud_id_list = [582338838]
+par_id_list = [582338838]
+teach_id = [1737599584]
 dz = False
 data = data_class.StudentsData()
 stud = []
 a = ""
 curStud = None
 phrases = ['Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя","Вы сломали бота поздравляю","А нет мне показалось)))","ТЫ СЕРЬЁЗНО ВСЁ ЕЩЁ ТЫКАЕШЬ СТАРТ","Ну прекрати","Если ты ещё раз тыкнешь старт,то к дз прибавится 1 задание","А ты любишь риск","Ладно ты победил(ла) , можешь не делать дз","Ну это реально конец.","P.S сделали Миша,Ефим,Макс","Макс не очень работал над фразами."]
+bug = False
 '''##########################Functions and otfer good thinks##############################'''
+
+
 def check_perm(id):
     if id in stud_id_list:
         return 1
@@ -57,16 +60,6 @@ def start_message(message):
 
 
 
-@bot.message_handler(commands=['getdz'])
-def start_message(message):
-    if check_perm(message.chat.id) == 3:
-        name = message.text[7:]
-        if data.getDz(message.chat.id) == "Фото":
-            bot.send_photo(message.chat.id, photo=open(f"data/{data.getStudId(name)}.jpg", "rb"))
-        else:
-            bot.send_message(message.chat.id, data.getDz(message.chat.id))
-    elif check_perm(message.chat.id) == 2:
-        print(1)
 '''##############################MIKSHA FUN FUNCTIONS(ALL CAN'T BE USE)####################################'''
 @bot.message_handler(commands=['setdz'])
 def start_message(message):
@@ -88,7 +81,7 @@ def start_message(message):
         a = ", ".join(stud)
         bot.send_message(message.chat.id, a)
     else:
-        bot.send_message(message.chat.id, "Вы уже подали заявку на регистрацию")
+        bot.send_message(message.chat.id, "У вас нет прав на эту команду")
 
 @bot.message_handler(commands=['setphdz'])
 def start_message(message):
@@ -126,6 +119,18 @@ def start_message(message):
         nm = message.text[12:]
 
         bot.send_message(message.chat.id, data.getStudNum(data.getStudId(nm)))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+@bot.message_handler(commands=['getlasttheme'])
+def start_message(message):
+    if check_perm(message.from_user.id) == 3:
+        nm = message.text[14:]
+        bot.send_message(message.chat.id, data.getLastTheme(data.getStudId(nm)))
+    elif check_perm(message.from_user.id) == 2:
+        bot.send_message(message.chat.id, data.getLastTheme(replace_id(message.chat.id)))
+    elif check_perm(message.chat.id) == 1:
+        bot.send_message(message.chat.id, data.getLastTheme(message.chat.id))
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
@@ -286,6 +291,7 @@ def start_message(message):
 @bot.message_handler(content_types=['photo'])
 def photo(message):
     global dz
+    global bug
     if dz and check_perm(message.from_user.id) == 3:
         fileID = message.photo[-1].file_id
         file_info = bot.get_file(fileID)
@@ -294,9 +300,32 @@ def photo(message):
             new_file.write(downloaded_file)
             data.setDz(data.getStudId(curStud),"Фото")
         bot.send_message(message.chat.id, "Дз задано!")
+    elif bug.chat.id == message.chat.id:
+        fileID = message.photo[-1].file_id
+        file_info = bot.get_file(fileID)
+        downloaded_file = bot.download_file(file_info.file_path)
+        with open(rf"data/bug.jpg", 'wb') as new_file:
+            new_file.write(downloaded_file)
+        bot.send_photo(message.chat.id, photo=open(f"data/bug.jpg", "rb"), caption="Пришло новое сообщение о баге - " + bug.text)
+        os.remove("data/bug.jpg")
+
+
+
+    bug =False
     dz = False
 
-'''###############################Ask3ll, LXSTON and other silvers functions####################################'''
+'''###############################ask3l, LXSTON and other silvers functions####################################'''
+
+
+
+
+
+@bot.message_handler(commands=['bug'])
+def start_message(message):
+    global bug
+    bot.send_message(message.chat.id, "Опишите проблему отправив боту сообщение")
+    bug = message.chat.id
+
 
 
 
@@ -309,7 +338,20 @@ def start_message(message):
         else:
             bot.send_message(message.chat.id, data.getDz(data.getStudId(name)))
     elif check_perm(message.chat.id) == 2:
-        print(1)
+        name = replace_id(message.chat.id)
+        if data.getDz(name) == "Фото":
+            bot.send_photo(message.chat.id, photo=open(f"data/{name}.jpg", "rb"))
+        else:
+            bot.send_message(message.chat.id, data.getDz(name))
+    elif check_perm(message.chat.id) == 1:
+        name = message.chat.id
+        if data.getDz(name) == "Фото":
+            bot.send_photo(message.chat.id, photo=open(f"data/{name}.jpg", "rb"))
+        else:
+            bot.send_message(message.chat.id, data.getDz(name))
+    else:
+        bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
 
 
 @bot.message_handler(commands=['getnextlsn'])
@@ -346,6 +388,26 @@ def start_message(message):
         bot.send_message(message.chat.id, data.getLessons(replace_id(message.chat.id)))
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
+
+@bot.message_handler(commands=['menu'])
+def start(message):
+    markup = telebot.types.InlineKeyboardMarkup()
+    button = telebot.types.InlineKeyboardButton(text='Домашку скинул быстро!!!!!', callback_data='add')
+    button2 = telebot.types.InlineKeyboardButton(text='КОГДА УРОК А МОЖЕТ Я ОПОЗДАЛ???', callback_data='kat')
+    markup.add(button)
+    markup.add(button2)
+    bot.send_photo(chat_id=message.chat.id, photo=open("osel.png", "rb"),caption='Самые полезные функции(А может и нет)', reply_markup=markup)
+
+@bot.message_handler(content_types=['text'])
+def text(message):
+    global bug
+    if message.chat.id == bug:
+        bot.send_message(message.chat.id, "Теперь отправьте скриншот вашей проблемы")
+        bug = message
+
+
+
+
 
 
 
