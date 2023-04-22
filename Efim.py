@@ -39,5 +39,10 @@ def query_handler(call):
 
 
 
-
+@bot.message_handler(commands=['help'])
+def helper(message):
+    #if check_perm(message.chat.id)==1:
+    bot.send_message(message.chat.id,text="ФУНКЦИИ\n"
+                                          "/getdz-Получить домашку чтобы не сидеть без дела\n"
+                                          "/getnextlesson-Узнать когда следуюшиий урок(чтобы не опоздать)")
 bot.infinity_polling()
