@@ -147,11 +147,17 @@ def start_message(message):
 @bot.message_handler(commands=['setdz'])
 def start_message(message):
     if check_perm(message.from_user.id) == 3:
+
         dz = message.text[7:]
         name = dz[0:dz.find(" ")]
+        try:
+            os.remove(rf"data/{data.getStudId(name)}.jpg")
+        except:
+            pass
         dz = dz[dz.find(" ")+1:]
         data.setDz(data.getStudId(name),dz)
         bot.send_message(message.chat.id, 'Дз задано!')
+
     else:
         bot.send_message(message.chat.id, 'У вас нет прав на использование этой команды')
 
@@ -475,12 +481,22 @@ def start_message(message):
 @bot.message_handler(commands=['menu'])
 def start(message):
     markup = telebot.types.InlineKeyboardMarkup()
-    button = telebot.types.InlineKeyboardButton(text='Домашку скинул быстро!!!!!', callback_data='add')
-    button2 = telebot.types.InlineKeyboardButton(text='КОГДА УРОК А МОЖЕТ Я ОПОЗДАЛ???', callback_data='kat')
+    button = telebot.types.InlineKeyboardButton(text="Домашняя работа", callback_data='home')
+    button2 = telebot.types.InlineKeyboardButton(text='Дата следующего урока', callback_data='date')
+    button3 = telebot.types.InlineKeyboardButton(text='Конспект', callback_data='kon')
     markup.add(button)
     markup.add(button2)
-    bot.send_photo(chat_id=message.chat.id, photo=open("osel.png", "rb"),caption='Самые полезные функции(А может и нет)', reply_markup=markup)
+    markup.add(button3)
+    bot.send_photo(chat_id=message.chat.id, photo=open("osel.png", "rb"),caption='Основные возможности бота', reply_markup=markup)
 
+@bot.callback_query_handler(func=lambda call: True)
+def query_handler(call):
+    if call.data == 'home':
+        bot.answer_callback_query(callback_query_id=call.id, text='Hello world')
+    elif call.data == "date":
+        pass
+    elif call.data == "kon":
+        pass
 @bot.message_handler(content_types=['text'])
 def text(message):
     global bug
