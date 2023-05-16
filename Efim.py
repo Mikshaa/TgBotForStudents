@@ -35,6 +35,7 @@ def start(message):
 def query_handler(call):
     if call.data == 'add':
         bot.answer_callback_query(callback_query_id=call.id, text='Hello world')
+        print(call.id)
 
 
 

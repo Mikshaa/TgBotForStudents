@@ -8,9 +8,9 @@ myID1 = 582338838
 combine = []
 token = "6004511133:AAFMwfkebSxQa_Op5jQNsMbYIpBaMyrgD98"
 bot=telebot.TeleBot(token)
-stud_id_list = [582338838]
+stud_id_list = [582338838, 1737599584]
 par_id_list = [582338838]
-teach_id = [1737599584]
+teach_id = []
 dz = False
 data = data_class.StudentsData()
 stud = []
@@ -61,6 +61,7 @@ def start_message(message):
 def start_message(message):
     if check_perm(message.chat.id) == 3:
         bot.send_message(message.chat.id, '''
+        
 Вам доступны все команды: 
 /getdz Имя - Узнать дз ученика по его имени
 
@@ -492,9 +493,29 @@ def start(message):
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):
     if call.data == 'home':
-        bot.answer_callback_query(callback_query_id=call.id, text='Hello world')
+        bot.delete_message(call.from_user.id, call.message.message_id)
+        if check_perm(call.from_user.id) == 2:
+            name = replace_id(call.from_user.id)
+            if data.getDz(name) == "Фото":
+                bot.send_photo(call.from_user.id, photo=open(f"data/{name}.jpg", "rb"))
+            else:
+                bot.send_message(call.from_user.id, data.getDz(name))
+        elif check_perm(call.from_user.id) == 1:
+            name = call.from_user.id
+            if data.getDz(name) == "Фото":
+                bot.send_photo(call.from_user.id, photo=open(f"data/{name}.jpg", "rb"))
+            else:
+                bot.send_message(call.from_user.id, data.getDz(name))
+        else:
+            bot.send_message(call.from_user.id, 'У вас нет прав на использование этой команды')
     elif call.data == "date":
-        pass
+        bot.delete_message(call.from_user.id, call.message.message_id)
+        if check_perm(call.from_user.id) == 1:
+            bot.send_message(call.from_user.id, data.getNextLsn(call.from_user.id))
+        elif check_perm(call.from_user.id) == 2:
+            bot.send_message(call.from_user.id, data.getNextLsn(replace_id(call.from_user.id)))
+        else:
+            bot.send_message(call.from_user.id, 'У вас нет прав на использование этой команды')
     elif call.data == "kon":
         pass
 @bot.message_handler(content_types=['text'])
