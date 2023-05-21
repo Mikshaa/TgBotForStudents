@@ -156,8 +156,7 @@ class StudentsData:
             if self.wb[self.getSheet(id)]['J2'].value < 10:
                 self.wb[self.getSheet(id)]['J2'].value = int(self.wb[self.getSheet(id)]['J2'].value)+1
                 self.wb.save('data/data.xlsx')
-            else:
-                self.wb[self.getSheet(id)]['J2'].value = 1
+
         else:
             print('NotFound')
 

@@ -6,9 +6,9 @@ dztt = False
 myID = 1737599584
 myID1 = 582338838
 combine = []
-token = "6004511133:AAFMwfkebSxQa_Op5jQNsMbYIpBaMyrgD98"
+token = "6068046652:AAG5-UfOBMFUkVv1s_5GaIQCTaPTnN0Q7MI"
 bot=telebot.TeleBot(token)
-stud_id_list = [582338838, 1737599584]
+stud_id_list = [582338838,1737599584]
 par_id_list = [582338838]
 teach_id = []
 dz = False
@@ -41,11 +41,17 @@ def start_message(message):
     if check_perm(message.chat.id) == 0:
         bot.send_message(message.chat.id,'Привет, напиши /reg Имя Фамилия')
     elif check_perm(message.chat.id) == 1:
-        x=data.getStartCount(message.chat.id)
-        bot.send_message(message.chat.id,phrases[x])
-        data.setStartCount(message.chat.id)
+        if data.getStartCount(message.chat.id) < 10:
+            x=data.getStartCount(message.chat.id)
+            bot.send_message(message.chat.id,phrases[x])
+            data.setStartCount(message.chat.id)
+        elif data.getStartCount(message.chat.id) == 500:
+            bot.send_message(message.chat.id, "Ты что реально нажал 500 раз?!")
+            bot.send_message(myID, f"Чел с именем {data.getStudName(message.chat.id)} нажал старт 500 раз ._.")
+        else:
+            bot.send_message(message.chat.id, "Больше фраз нет, и тут нет пасхалок на 1000 нажатий)))")
     elif check_perm(message.chat.id) == 2:
-        bot.send_message(message.chat.id,'123123')
+        bot.send_message(message.chat.id,'Добрый день! Рад приветствовать вас, уважаемые родители! Я здесь, чтобы помочь вам быть в курсе всех актуальных событий и информации о ваших детях. Если у вас возникнут вопросы или потребуется помощь, обращатесь ко мне напрямую. Желаю вам приятного дня!')
 
 @bot.message_handler(commands=['reg'])
 def start_message(message):
@@ -113,28 +119,29 @@ def start_message(message):
        ''')
     elif check_perm(message.chat.id) == 2:
         bot.send_message(message.chat.id, '''
-        /getdz - Узнать дз
+/getdz - Узнать дз
 
-        /bug - Отправить сообщение о ошибке 
+/bug - Отправить сообщение о ошибке 
 
-        /getnextlsn Имя ученика - Узнать дату следующего урока выбранного ученика
+/getnextlsn Имя ученика - Узнать дату следующего урока выбранного ученика
 
-        /getlasttheme Имя ученика - Узнать последную тему выбранного ученика
+/getlasttheme Имя ученика - Узнать последную тему выбранного ученика
 
-        /getpaid Имя ученика - Узнать кол-во оплаченых уроков выбранного ученика
+/getpaid Имя ученика - Узнать кол-во оплаченых уроков выбранного ученика
 
-        /getlessons Имя ученика - Узнать кол-во пройденых уроков''')
+/getlessons Имя ученика - Узнать кол-во пройденых уроков''')
     elif check_perm(message.chat.id) == 1:
         bot.send_message(message.chat.id, '''
-               /getdz - Узнать дз
+/getdz - Узнать дз
 
-               /bug - Отправить сообщение о ошибке 
+/bug - Отправить сообщение о ошибке 
 
-               /getnextlsn Имя ученика - Узнать дату следующего урока выбранного ученика
+/getnextlsn Имя ученика - Узнать дату следующего урока выбранного ученика
 
-               /getlasttheme Имя ученика - Узнать последную тему выбранного ученика
+/getlasttheme Имя ученика - Узнать последную тему выбранного ученика
 
-               /getlessons Имя ученика - Узнать кол-во пройденых уроков''')
+/getlessons Имя ученика - Узнать кол-во пройденых уроков
+''')
     else:
         bot.send_message(message.chat.id, "У вас нет прав на использование этого бота")
 
@@ -396,7 +403,7 @@ def photo(message):
         downloaded_file = bot.download_file(file_info.file_path)
         with open(rf"data/bug.jpg", 'wb') as new_file:
             new_file.write(downloaded_file)
-        bot.send_photo(message.chat.id, photo=open(f"data/bug.jpg", "rb"), caption="Пришло новое сообщение о баге - " + bug.text)
+        bot.send_photo(myID, photo=open(f"data/bug.jpg", "rb"), caption="Пришло новое сообщение о баге - " + bug.text)
         os.remove("data/bug.jpg")
 
 
