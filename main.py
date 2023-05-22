@@ -6,7 +6,8 @@ dztt = False
 myID = 1737599584
 myID1 = 582338838
 combine = []
-token = "6068046652:AAG5-UfOBMFUkVv1s_5GaIQCTaPTnN0Q7MI"
+#6068046652:AAG5-UfOBMFUkVv1s_5GaIQCTaPTnN0Q7MI
+token = "5530967382:AAElB2IgPFx27o0vdqoH7YqpDkAdyMiH7kU"
 bot=telebot.TeleBot(token)
 stud_id_list = [582338838,1737599584]
 par_id_list = [582338838]
@@ -17,7 +18,7 @@ stud = []
 a = ""
 curStud = None
 phrases = ['Ты уже зарегистрирован!', "Эта комманда бесполезна для тебя","Вы сломали бота поздравляю","А нет мне показалось)))","ТЫ СЕРЬЁЗНО ВСЁ ЕЩЁ ТЫКАЕШЬ СТАРТ","Ну прекрати","Если ты ещё раз тыкнешь старт,то к дз прибавится 1 задание","А ты любишь риск","Ладно ты победил(ла) , можешь не делать дз","Ну это реально конец.","P.S сделали Миша,Ефим,Макс","Макс не очень работал над фразами."]
-bug = False
+bug = {}
 '''##########################Functions and otfer good thinks##############################'''
 
 
@@ -48,8 +49,16 @@ def start_message(message):
         elif data.getStartCount(message.chat.id) == 500:
             bot.send_message(message.chat.id, "Ты что реально нажал 500 раз?!")
             bot.send_message(myID, f"Чел с именем {data.getStudName(message.chat.id)} нажал старт 500 раз ._.")
+            data.plusCount(message.chat.id)
+        elif data.getStartCount(message.chat.id) == 1000:
+            bot.send_photo(message.chat.id, photo=open("osel.png", "rb"))
+            bot.send_message(myID, f"Псих {data.getStudName(message.chat.id)} нажал старт 1000 раз...")
+            data.plusCount(message.chat.id)
+        elif data.getStartCount(message.chat.id) > 1000:
+            bot.send_message(message.chat.id, "Капец ты псих...")
         else:
             bot.send_message(message.chat.id, "Больше фраз нет, и тут нет пасхалок на 1000 нажатий)))")
+            data.plusCount(message.chat.id)
     elif check_perm(message.chat.id) == 2:
         bot.send_message(message.chat.id,'Добрый день! Рад приветствовать вас, уважаемые родители! Я здесь, чтобы помочь вам быть в курсе всех актуальных событий и информации о ваших детях. Если у вас возникнут вопросы или потребуется помощь, обращатесь ко мне напрямую. Желаю вам приятного дня!')
 
@@ -397,18 +406,22 @@ def photo(message):
             new_file.write(downloaded_file)
             data.setDz(data.getStudId(curStud),"Фото")
         bot.send_message(message.chat.id, "Дз задано!")
-    elif bug.chat.id == message.chat.id:
+    try:
+        text = bug[message.from_user.id]
         fileID = message.photo[-1].file_id
         file_info = bot.get_file(fileID)
         downloaded_file = bot.download_file(file_info.file_path)
         with open(rf"data/bug.jpg", 'wb') as new_file:
             new_file.write(downloaded_file)
-        bot.send_photo(myID, photo=open(f"data/bug.jpg", "rb"), caption="Пришло новое сообщение о баге - " + bug.text)
+        bot.send_photo(myID, photo=open(f"data/bug.jpg", "rb"), caption="Пришло новое сообщение о баге - " + text)
         os.remove("data/bug.jpg")
+        del bug[message.from_user.id]
+        bot.send_message(message.chat.id, 'Сообщение зарегистрировано!')
+    except:
+        pass
 
 
 
-    bug =False
     dz = False
 
 '''###############################ask3l, LXSTON and other silvers functions####################################'''
@@ -421,7 +434,7 @@ def photo(message):
 def start_message(message):
     global bug
     bot.send_message(message.chat.id, "Опишите проблему отправив боту сообщение")
-    bug = message.chat.id
+    bug[message.chat.id] = message.chat.id
 
 
 
@@ -528,9 +541,15 @@ def query_handler(call):
 @bot.message_handler(content_types=['text'])
 def text(message):
     global bug
-    if message.chat.id == bug:
+
+    try:
+        bug[message.chat.id] = message.text
         bot.send_message(message.chat.id, "Теперь отправьте скриншот вашей проблемы")
-        bug = message
+    except:
+        pass
+
+
+
 
 
 

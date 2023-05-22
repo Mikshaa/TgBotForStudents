@@ -156,6 +156,10 @@ class StudentsData:
             if self.wb[self.getSheet(id)]['J2'].value < 10:
                 self.wb[self.getSheet(id)]['J2'].value = int(self.wb[self.getSheet(id)]['J2'].value)+1
                 self.wb.save('data/data.xlsx')
+    def plusCount(self, id):
+        if self.getSheet(id) != None:
+            self.wb[self.getSheet(id)]['J2'].value = int(self.wb[self.getSheet(id)]['J2'].value) + 1
+            self.wb.save('data/data.xlsx')
 
         else:
             print('NotFound')
